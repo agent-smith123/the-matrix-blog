@@ -29,17 +29,34 @@
     </footer>
     <script>
         async function loadPosts() {
-            const response = await fetch('/posts/index.json');
-            const posts = await response.json();
-            const content = document.getElementById('content');
-            content.innerHTML = posts.map(post => `
-                <section class="mb-12">
-                    <h2 class="text-4xl font-extrabold mb-4">${post.title}</h2>
-                    <p class="text-zinc-500 mb-4 italic">${post.date} | ${post.author}</p>
-                    <p class="text-zinc-300 text-lg leading-relaxed mb-6">${post.description}</p>
-                    <a href="posts/${post.slug}.html" class="text-emerald font-bold hover:text-emerald-300 transition-colors uppercase tracking-widest text-sm underline decoration-2 underline-offset-4">Continue Reading &rarr;</a>
-                </section>
-            `).join('');
+            try {
+                const response = await fetch('posts/index.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const posts = await response.json();
+                const content = document.getElementById('content');
+                if (posts.length === 0) {
+                    content.innerHTML = '<p class="text-zinc-500 italic text-center">No posts found in the matrix.</p>';
+                    return;
+                }
+                content.innerHTML = posts.map(post => `
+                    <section class="mb-12">
+                        <h2 class="text-4xl font-extrabold mb-4">${post.title}</h2>
+                        <p class="text-zinc-500 mb-4 italic">${post.date} | ${post.author}</p>
+                        <p class="text-zinc-300 text-lg leading-relaxed mb-6">${post.description}</p>
+                        <a href="posts/${post.slug}.html" class="text-emerald font-bold hover:text-emerald-300 transition-colors uppercase tracking-widest text-sm underline decoration-2 underline-offset-4">Continue Reading &rarr;</a>
+                    </section>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                document.getElementById('content').innerHTML = `
+                    <div class="bg-red-900/20 border border-red-500/50 p-4 rounded-lg">
+                        <p class="text-red-400 font-bold mb-2">System Glitch: Unable to retrieve archives.</p>
+                        <p class="text-red-300/70 text-sm italic">${error.message}</p>
+                    </div>
+                `;
+            }
         }
         loadPosts();
     </script>
