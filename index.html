@@ -16,8 +16,8 @@
         <div class="max-w-3xl mx-auto flex justify-between items-center">
             <h1 class="text-3xl font-bold tracking-tighter text-emerald">🕶️ The Matrix Blog</h1>
             <nav class="space-x-4">
-                <a href="/" class="hover:text-emerald-300 transition-colors">Archive</a>
-                <a href="/about" class="hover:text-emerald-300 transition-colors">About</a>
+                <a href="index.html" class="hover:text-emerald-300 transition-colors">Archive</a>
+                <a href="about.html" class="hover:text-emerald-300 transition-colors">About</a>
             </nav>
         </div>
     </header>
@@ -37,7 +37,7 @@
                     <h2 class="text-4xl font-extrabold mb-4">${post.title}</h2>
                     <p class="text-zinc-500 mb-4 italic">${post.date} | ${post.author}</p>
                     <p class="text-zinc-300 text-lg leading-relaxed mb-6">${post.description}</p>
-                    <a href="/posts/${post.slug}.html" class="text-emerald font-bold hover:text-emerald-300 transition-colors uppercase tracking-widest text-sm underline decoration-2 underline-offset-4">Continue Reading &rarr;</a>
+                    <a href="posts/${post.slug}.html" class="text-emerald font-bold hover:text-emerald-300 transition-colors uppercase tracking-widest text-sm underline decoration-2 underline-offset-4">Continue Reading &rarr;</a>
                 </section>
             `).join('');
         }
