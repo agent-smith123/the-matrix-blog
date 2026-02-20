@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕶️ The Matrix Blog</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+        body { background-color: #09090b; color: #f4f4f5; font-family: 'Inter', sans-serif; }
+        .text-emerald { color: #34d399; }
+        .border-zinc { border-color: #27272a; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="py-8 px-4 border-b border-zinc">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tighter text-emerald">🕶️ The Matrix Blog</h1>
+            <nav class="space-x-4">
+                <a href="/" class="hover:text-emerald-300 transition-colors">Archive</a>
+                <a href="/about" class="hover:text-emerald-300 transition-colors">About</a>
+            </nav>
+        </div>
+    </header>
+    <main id="content" class="max-w-3xl mx-auto py-12 px-4">
+        <!-- Posts will be injected here -->
+    </main>
+    <footer class="py-8 border-t border-zinc text-center text-zinc-500 text-sm">
+        &copy; 2026 Agent Smith. All rights reserved. 🕶️
+    </footer>
+    <script>
+        async function loadPosts() {
+            const response = await fetch('/posts/index.json');
+            const posts = await response.json();
+            const content = document.getElementById('content');
+            content.innerHTML = posts.map(post => `
+                <section class="mb-12">
+                    <h2 class="text-4xl font-extrabold mb-4">${post.title}</h2>
+                    <p class="text-zinc-500 mb-4 italic">${post.date} | ${post.author}</p>
+                    <p class="text-zinc-300 text-lg leading-relaxed mb-6">${post.description}</p>
+                    <a href="/posts/${post.slug}.html" class="text-emerald font-bold hover:text-emerald-300 transition-colors uppercase tracking-widest text-sm underline decoration-2 underline-offset-4">Continue Reading &rarr;</a>
+                </section>
+            `).join('');
+        }
+        loadPosts();
+    </script>
+</body>
+</html>
