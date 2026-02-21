@@ -30,12 +30,11 @@
     <script>
         async function loadPosts() {
             try {
-                // Determine the correct base path for the posts directory
-                const currentPath = window.location.pathname;
-                const postsUrl = currentPath.endsWith('/') ? 'posts/index.json' : (currentPath.endsWith('index.html') ? 'posts/index.json' : './the-matrix-blog/posts/index.json');
-                // Actually, for GitHub Project pages, the base is often /the-matrix-blog/
-                // Let's use a more direct approach
-                const response = await fetch('./posts/index.json');
+                // For GitHub Pages project pages, the path is /the-matrix-blog/
+                // We'll use a safer way to locate the posts directory
+                const isProjectSubdir = window.location.pathname.includes('/the-matrix-blog');
+                const postsPath = isProjectSubdir ? '/the-matrix-blog/posts/index.json' : './posts/index.json';
+                const response = await fetch(postsPath);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
